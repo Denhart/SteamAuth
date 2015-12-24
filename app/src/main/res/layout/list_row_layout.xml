@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minHeight="50dp"
+    android:orientation="horizontal"
+    android:padding="5dip">
+
+    <TextView
+        android:id="@+id/steamCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/accountName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/steamCode"
+        android:layout_marginTop="5dip"
+        android:text="Test"
+        android:textSize="12sp" />
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/yourCircularProgressbar"
+        android:layout_alignParentRight="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        app:progress="35"
+        app:background_progressbar_color="#FFCDD2"
+        app:background_progressbar_width="5dp"
+        app:progressbar_color="#F44336"
+        app:progressbar_width="10dp" />
+
+
+<!--    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/reporter"
+        android:layout_alignBottom="@+id/reporter"
+        android:layout_alignParentRight="true"
+        android:text=""
+
+        android:textSize="12sp" />-->
+
+</RelativeLayout>
