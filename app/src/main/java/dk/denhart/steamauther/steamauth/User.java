@@ -16,11 +16,25 @@ public class User {
     private String accountName;
     private String sharedSecret;
     private String identitySecret;
+    private int    id;
 
-    public User (String accountName, String sharedSecret, String identitySecret ){
+    public User(){
+
+    }
+
+    public User(int id, String accountName, String sharedSecret, String identitySecret) {
+        this.id = id;
         this.accountName = accountName;
         this.sharedSecret = sharedSecret;
         this.identitySecret = identitySecret;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public String getaccountName() {

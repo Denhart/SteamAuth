@@ -115,9 +115,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<User> getListData() {
         ArrayList<User> results = new ArrayList<User>();
-        results.add(new User("Test 1", "M+/zRGFUvlntWFBPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
-        results.add(new User("Test 2", "M+/zRGFUvlntWAAPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
-        results.add(new User("Test 3", "M+/zRGFUvlntAFAPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
+        results.add(new User(1, "Test 1", "M+/zRGFUvlntWFBPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
+        results.add(new User(2, "Test 2", "M+/zRGFUvlntWAAPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
+        results.add(new User(3, "Test 3", "M+/zRGFUvlntAFAPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
         return results;
     }
 }
