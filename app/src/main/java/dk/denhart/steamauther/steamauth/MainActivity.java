@@ -16,6 +16,9 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<User> results =  db.getAllUsers();
                 User user = db.getUser(1);
                 Log.d("Test" ,user.getaccountName());
+                AddUserDialog Test = new AddUserDialog(MainActivity.this);
+                Test.showInputDialogTester();
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -132,5 +137,17 @@ public class MainActivity extends AppCompatActivity {
         results.add(new User(2, "Test 2", "M+/zRGFUvlntWAAPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
         results.add(new User(3, "Test 3", "M+/zRGFUvlntAFAPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
         return results;
+    }
+
+    // Handle Callback from QR reader...
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        Log.d("Im here2", "Im here2");
+        if (scanResult != null) {
+            String contents = scanResult.getContents();
+            if (contents != null)
+                Log.d("Scan intent", scanResult.getContents());
+        }
+
     }
 }
