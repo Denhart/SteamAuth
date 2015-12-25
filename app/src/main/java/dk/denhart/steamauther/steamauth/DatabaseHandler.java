@@ -1,15 +1,11 @@
 package dk.denhart.steamauther.steamauth;
-
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Created by denhart on 12/25/15.
@@ -61,7 +57,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * All CRUD(Create, Read, Update, Delete) Operations
      */
 
-    // Adding new image
+    // Adding new user
     void addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -75,7 +71,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    // Getting single image
+    // Getting single user
     User getUser(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -90,9 +86,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    // Getting All images
-    public List<User> getAllImages() {
-        List<User> userDBList = new ArrayList<User>();
+    // Getting All users
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> userDBList = new ArrayList<User>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_ACCOUNTS;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -116,7 +112,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    // Updating single image
+    // Updating single user
     public int updateUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -130,7 +126,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[] { String.valueOf(user.getId()) });
     }
 
-    // Deleting single image
+    // Deleting single user
     public void deleteUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ACCOUNTS, ACCOUNT_ID + " = ?",
@@ -139,7 +135,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    // Getting images Count
+    // Getting user Count
     public int getUserCount() {
         String countQuery = "SELECT  * FROM " + TABLE_ACCOUNTS;
         SQLiteDatabase db = this.getReadableDatabase();

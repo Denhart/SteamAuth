@@ -22,9 +22,11 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    DatabaseHandler db = new DatabaseHandler(this);
     private Handler handler = new Handler(Looper.getMainLooper());
     ListView list;
-    ArrayList<User> image_details = getListData();
+
+    ArrayList<User> user_details;
     CustomListAdapter adapter;
 
     static final private int DELAY_TIME = 30 * 1000;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ArrayList<User> results =  db.getAllUsers();
+                User user = db.getUser(1);
+                Log.d("Test" ,user.getaccountName());
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -57,9 +62,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        user_details = db.getAllUsers();
         startRunnableSynced();
         list = (ListView) findViewById(R.id.list_myContent);
-        adapter = new CustomListAdapter(this, image_details);
+        adapter = new CustomListAdapter(this, user_details);
         list.setAdapter(adapter);
     }
 
@@ -112,6 +118,13 @@ public class MainActivity extends AppCompatActivity {
         }
       return 1;
     }
+
+    private ArrayList<User> getListDataDB() {
+        db.addUser(new User(0, "Test 1", "M+/zRGFUvlntWFBPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
+        ArrayList<User> results =  db.getAllUsers();
+        return results;
+    }
+
 
     private ArrayList<User> getListData() {
         ArrayList<User> results = new ArrayList<User>();
