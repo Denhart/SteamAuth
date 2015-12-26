@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<User> results =  db.getAllUsers();
                 User user = db.getUser(1);
                 Log.d("Test" ,user.getaccountName());
-                UserDialog.showInputDialogTester();
+                UserDialog.showInputDialog();
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

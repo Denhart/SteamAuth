@@ -41,7 +41,7 @@ public class AddUserDialog extends Activity{
 
     }
 
-    public void showInputDialogTester() {
+    public void showInputDialog() {
         final String[] items = {"Manually", "Scan QR-code", "Other method"};
         String Test = "Hej";
         AlertDialog.Builder builder = new AlertDialog.Builder(this.workingActivity);
@@ -64,5 +64,30 @@ public class AddUserDialog extends Activity{
         alert.show();
 
     }
+
+    public void showDeleteDialog(DatabaseHandler db, int itemId) {
+        //TODO implement this shit.
+        final String[] items = {"Manually", "Scan QR-code", "Other method"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.workingActivity);
+        builder.setTitle("Delete account: ");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                Log.d("Scan intent", items[item]);
+
+                if (items[item].equals("Manually")){
+                } else if (items[item].equals("Scan QR-code")){
+                    handleQRscan();
+                } else if (items[item].equals("Other method")){
+
+                }
+
+
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+    }
+
 
 }
