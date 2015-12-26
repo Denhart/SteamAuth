@@ -159,13 +159,13 @@ public class MainActivity extends AppCompatActivity {
                     newUser.setaccountName(QRdata.getString("account_name"));
                     newUser.setsharedSecret(QRdata.getString("shared_secret"));
                     newUser.setidentitySecret(QRdata.getString("identity_secret"));
-                    db.addUser(newUser);    
+                    db.addUser(newUser);
 
                 } catch (JSONException e) {
                     Log.d("Scan intent", "Not valid json");
                     Toast.makeText(MainActivity.this,
                             "Not valid format, scan again!",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_LONG).show();
                     UserDialog.handleQRscan();
                 }
                 Log.d("Scan intent", scanResult.getContents());
