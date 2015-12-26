@@ -16,7 +16,7 @@ public class User {
     private String accountName;
     private String sharedSecret;
     private String identitySecret;
-    private int    id;
+    private int    id = 0;
 
     public User(){
 

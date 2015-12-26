@@ -15,9 +15,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,12 +30,15 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    JSONArray pages;
     DatabaseHandler db = new DatabaseHandler(this);
     private Handler handler = new Handler(Looper.getMainLooper());
     ListView list;
 
     ArrayList<User> user_details;
     CustomListAdapter adapter;
+
+    AddUserDialog UserDialog;
 
     static final private int DELAY_TIME = 30 * 1000;
     private Runnable runnable = new Runnable() {
@@ -48,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        UserDialog = new AddUserDialog(MainActivity.this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,8 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<User> results =  db.getAllUsers();
                 User user = db.getUser(1);
                 Log.d("Test" ,user.getaccountName());
-                AddUserDialog Test = new AddUserDialog(MainActivity.this);
-                Test.showInputDialogTester();
+                UserDialog.showInputDialogTester();
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -131,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private ArrayList<User> getListData() {
+    private ArrayList<User> getListTestData() {
         ArrayList<User> results = new ArrayList<User>();
         results.add(new User(1, "Test 1", "M+/zRGFUvlntWFBPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
         results.add(new User(2, "Test 2", "M+/zRGFUvlntWAAPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
@@ -146,6 +153,21 @@ public class MainActivity extends AppCompatActivity {
         if (scanResult != null) {
             String contents = scanResult.getContents();
             if (contents != null)
+                try {
+                    JSONObject QRdata = new JSONObject(contents);
+                    User newUser = new User();
+                    newUser.setaccountName(QRdata.getString("account_name"));
+                    newUser.setsharedSecret(QRdata.getString("shared_secret"));
+                    newUser.setidentitySecret(QRdata.getString("identity_secret"));
+                    db.addUser(newUser);    
+
+                } catch (JSONException e) {
+                    Log.d("Scan intent", "Not valid json");
+                    Toast.makeText(MainActivity.this,
+                            "Not valid format, scan again!",
+                            Toast.LENGTH_SHORT).show();
+                    UserDialog.handleQRscan();
+                }
                 Log.d("Scan intent", scanResult.getContents());
         }
 
