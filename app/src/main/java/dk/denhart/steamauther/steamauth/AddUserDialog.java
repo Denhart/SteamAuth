@@ -65,25 +65,25 @@ public class AddUserDialog extends Activity{
 
     }
 
-    public void showDeleteDialog(DatabaseHandler db, int itemId) {
+    public void showDeleteDialog(final DatabaseHandler db, final User curUser, final CustomListAdapter adapter, final int pos) {
         //TODO implement this shit.
-        final String[] items = {"Manually", "Scan QR-code", "Other method"};
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this.workingActivity);
-        builder.setTitle("Delete account: ");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                Log.d("Scan intent", items[item]);
+        builder.setTitle("Delete");
+        builder.setMessage("Do you want to remove " + curUser.getaccountName() + "?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        db.deleteUser(curUser);
+                        adapter.deleteItem(pos);
 
-                if (items[item].equals("Manually")){
-                } else if (items[item].equals("Scan QR-code")){
-                    handleQRscan();
-                } else if (items[item].equals("Other method")){
-
-                }
-
-
-            }
-        });
+                        // FIRE ZE MISSILES!
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
         AlertDialog alert = builder.create();
         alert.show();
 

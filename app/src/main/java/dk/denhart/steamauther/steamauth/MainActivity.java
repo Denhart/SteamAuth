@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -61,9 +62,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<User> results =  db.getAllUsers();
-                User user = db.getUser(1);
-                Log.d("Test" ,user.getaccountName());
                 UserDialog.showInputDialog();
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -79,6 +77,23 @@ public class MainActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.list_myContent);
         adapter = new CustomListAdapter(this, user_details);
         list.setAdapter(adapter);
+        list.setLongClickable(true);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("short click, item: ", Integer.toString(position));
+            }
+        });
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            public boolean onItemLongClick(AdapterView<?> arg0, View view,
+                                           int pos, long id) {
+                UserDialog.showDeleteDialog(db, user_details.get(pos), adapter, pos);
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -131,20 +146,6 @@ public class MainActivity extends AppCompatActivity {
       return 1;
     }
 
-    private ArrayList<User> getListDataDB() {
-        db.addUser(new User(0, "Test 1", "M+/zRGFUvlntWFBPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
-        ArrayList<User> results =  db.getAllUsers();
-        return results;
-    }
-
-
-    private ArrayList<User> getListTestData() {
-        ArrayList<User> results = new ArrayList<User>();
-        results.add(new User(1, "Test 1", "M+/zRGFUvlntWFBPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
-        results.add(new User(2, "Test 2", "M+/zRGFUvlntWAAPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
-        results.add(new User(3, "Test 3", "M+/zRGFUvlntAFAPXvZGrzLubhc=", "T033yy9A9QIOaOofW+br2MG/VY8="));
-        return results;
-    }
 
     // Handle Callback from QR reader...
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -172,4 +173,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+    protected void redrawList(){
+
+    adapter.updateData(db.getAllUsers());
+    }
+
 }

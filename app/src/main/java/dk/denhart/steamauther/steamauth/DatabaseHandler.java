@@ -130,7 +130,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void deleteUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ACCOUNTS, ACCOUNT_ID + " = ?",
-                new String[] { String.valueOf(user.getId()) });
+                new String[]{String.valueOf(user.getId())});
+        db.close();
+    }
+
+    public void deleteByID(int userID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_ACCOUNTS, ACCOUNT_ID + " = ?",
+                new String[] { String.valueOf(userID) });
         db.close();
     }
 

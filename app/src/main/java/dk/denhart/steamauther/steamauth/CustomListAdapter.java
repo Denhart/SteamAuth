@@ -52,6 +52,12 @@ public class CustomListAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
+    public void deleteItem(int id) {
+
+        this.userData.remove(id);
+        this.notifyDataSetChanged();
+    }
+
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
