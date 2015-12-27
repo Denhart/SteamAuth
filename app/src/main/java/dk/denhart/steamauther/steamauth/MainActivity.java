@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        UserDialog = new AddUserDialog(MainActivity.this);
+        UserDialog = new AddUserDialog(adapter, MainActivity.this, db);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
     @Override
@@ -151,33 +150,34 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         Log.d("Im here2", "Im here2");
-        if (scanResult != null) {
-            String contents = scanResult.getContents();
-            if (contents != null)
-                try {
-                    JSONObject QRdata = new JSONObject(contents);
-                    User newUser = new User();
-                    newUser.setaccountName(QRdata.getString("account_name"));
-                    newUser.setsharedSecret(QRdata.getString("shared_secret"));
-                    newUser.setidentitySecret(QRdata.getString("identity_secret"));
-                    db.addUser(newUser);
+        try {
+            if (scanResult != null) {
+                String contents = scanResult.getContents();
+                if (contents != null)
+                    try {
+                        JSONObject QRdata = new JSONObject(contents);
+                        User newUser = new User();
+                        newUser.setaccountName(QRdata.getString("account_name"));
+                        newUser.setsharedSecret(QRdata.getString("shared_secret"));
+                        newUser.setidentitySecret(QRdata.getString("identity_secret"));
+                        db.addUser(newUser);
 
-                } catch (JSONException e) {
-                    Log.d("Scan intent", "Not valid json");
-                    Toast.makeText(MainActivity.this,
-                            "Not valid format, scan again!",
-                            Toast.LENGTH_LONG).show();
-                    UserDialog.handleQRscan();
-                }
+                    } catch (JSONException e) {
+                        Log.d("Scan intent", "Not valid json");
+                        Toast.makeText(MainActivity.this,
+                                "Not valid format, scan again!",
+                                Toast.LENGTH_LONG).show();
+                        UserDialog.handleQRscan();
+                    }
                 Log.d("Scan intent", scanResult.getContents());
+            }
+
+        } catch (Exception e){
+
+
         }
 
+
+
     }
-
-
-    protected void redrawList(){
-
-    adapter.updateData(db.getAllUsers());
-    }
-
 }
